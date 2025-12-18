@@ -168,8 +168,27 @@ h2{ margin:0; font-size: 18px; }
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
+
 @media (max-width: 900px){
   .timeline{ grid-template-columns: 1fr; gap: 12px; }
+}
+.tHeader{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+}
+
+.tPct{
+  font-size:13px;
+  font-weight:700;
+  color:var(--muted);
+}
+
+.tName{
+  margin-top:8px;
+  font-weight:750;
+  line-height:1.2;
 }
 
 .tItem{
