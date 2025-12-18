@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Status do Projeto</title>
+  <title>Projeto Novo MOODLE</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <header class="wrap header">
     <div>
       <h1>Status do Projeto</h1>
-      <p class="muted">Painel vivo para diretoria — atualização rápida e objetiva.</p>
+      <p class="muted">Status de atualização do projeto.</p>
     </div>
 
     <div class="pill">
@@ -61,7 +61,7 @@
     <section class="card span2">
       <div class="cardHead">
         <h2>Fases e status</h2>
-        <span class="muted small">edite só o bloco “DATA” no fim do arquivo</span>
+       <!-- <span class="muted small">edite só o bloco “DATA” no fim do arquivo</span>-->
       </div>
 
       <div class="phases" id="phases"></div>
@@ -84,7 +84,7 @@
   </main>
 
   <footer class="wrap footer">
-    <span class="muted small">INED • Painel de status • Versionado no GitHub</span>
+    <span class="muted small">INED • Painel alimentado manualmente</span>
   </footer>
 
 <script>
@@ -106,38 +106,40 @@ const DATA = {
       bullets: ["Escopo definido", "Estrutura do curso validada", "Fluxo aprovado"]
     },
     {
-      name: "Desenvolvimento: Isleide",
+      name: "Desenvolvimento — Isleide",
       status: "warn",
       pct: 90,
-      bullets: ["Conteúdo principal em construção", "Ajustes contínuos", "Base do curso praticamente finalizada"]
+      bullets: ["Conteúdo principal em construção", "Ajustes contínuos", "Base do curso", "Copiar o Conteúdo do curso para o Ambiente de produção", "Realizer testes de funcionamento do fluxo"]
     },
     {
-      name: "Testes Pedagógicos",
+      name: "Testes Pedagógicos — Professora Alexandra",
       status: "warn",
       pct: 60,
-      bullets: ["Validação de conteúdo", "Sequência didática", "Adequação ao público-alvo"]
+      bullets: ["Criação de conteúdo", "Validação de Conteúdo", "Teste no ambiente de homologação como aluno", "Refazer o teste no ambiente de produção como aluno"]
     },
     {
-      name: "Testes Técnicos",
+      name: "Integração SISNAC/MOODLE — Paulo/Nelson",
       status: "warn",
       pct: 40,
-      bullets: ["Acesso à plataforma", "Navegação", "Integrações e estabilidade"]
+      bullets: ["Mapeamento das tabelas no SISNAC", "Criação do curso dentro do SISNAC", "Mapeamento de funcionamento do novo MOODLE", "Desenvolvimento da API MOODLE >> SISNAC", "Testes de comunicação da API",
+                "Validação pegagogica de atividades obrigatoris", "teste de comunicação das atividades no MOODLE", 
     },
     {
       name: "Curso no ar",
       status: "todo",
       pct: 0,
-      bullets: ["Liberação oficial aos alunos", "Comunicação e acompanhamento inicial"]
+      bullets: ["Liberação oficial aos alunos", "Ambiente testado", "Comunicação Básica com SISNAC",]
     }
   ],
   checklist: [
     { text: "Conclusão dos testes pedagógicos", done: false },
-    { text: "Ajustes técnicos finais", done: false },
-    { text: "Validação geral", done: false },
+    { text: "Integração finalizada", done: false },
+    { text: "Validação no ambiente de produção", done: false },
     { text: "Publicação do curso (Curso no ar)", done: false }
   ],
   directorText:
-    "O projeto está com aproximadamente 72% de avanço, com foco atual em testes pedagógicos e técnicos — etapas críticas para garantir qualidade antes de colocar o curso no ar."
+    "O projeto está com aproximadamente 72% de avanço, com foco atual em preparar o ambiente de produção (Onde o aluno vai acessar),"
+  "Refazer os testes pedagógicos (profª Alexandra), e continuar a integração Entre SISNAC/MOODLE"
 };
 /* ========================= */
 
