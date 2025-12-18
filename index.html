@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Status do Projeto</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="wrap header">
+    <div>
+      <h1>Status do Projeto</h1>
+      <p class="muted">Painel vivo para diretoria — atualização rápida e objetiva.</p>
+    </div>
+
+    <div class="pill">
+      <span class="dot"></span>
+      <span id="lastUpdate">Atualizado: —</span>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <!-- PROGRESSO GERAL -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>Progresso geral</h2>
+        <span class="badge badge-warn" id="overallLabel">Em andamento</span>
+      </div>
+
+      <div class="bigPercent">
+        <span id="overallPct">72</span><small>%</small>
+      </div>
+
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div class="barFill" id="overallBar"></div>
+      </div>
+
+      <p class="muted" id="overallNote">
+        Fase atual: integrações e testes (pedagógico e técnico), etapa crítica para estabilidade antes do curso no ar.
+      </p>
+    </section>
+
+    <!-- LINHA DO TEMPO -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>Linha de evolução</h2>
+        <span class="muted small">do início até “Curso no ar”</span>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+
+      <div class="legend">
+        <span class="lg"><i class="b ok"></i>Concluído</span>
+        <span class="lg"><i class="b warn"></i>Em andamento</span>
+        <span class="lg"><i class="b risk"></i>Crítico</span>
+        <span class="lg"><i class="b todo"></i>Não iniciado</span>
+      </div>
+    </section>
+
+    <!-- FASES -->
+    <section class="card span2">
+      <div class="cardHead">
+        <h2>Fases e status</h2>
+        <span class="muted small">edite só o bloco “DATA” no fim do arquivo</span>
+      </div>
+
+      <div class="phases" id="phases"></div>
+    </section>
+
+    <!-- PENDÊNCIAS -->
+    <section class="card span2">
+      <div class="cardHead">
+        <h2>O que falta para o Curso no ar</h2>
+        <span class="badge badge-soft">Checklist</span>
+      </div>
+
+      <ul class="checklist" id="checklist"></ul>
+
+      <div class="callout">
+        <strong>Leitura rápida para diretoria:</strong>
+        <span id="directorText"></span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <span class="muted small">INED • Painel de status • Versionado no GitHub</span>
+  </footer>
+
+<script>
+/* =========================
+   DATA (edite aqui depois)
+   ========================= */
+const DATA = {
+  lastUpdate: "18/12/2025",
+  overall: {
+    pct: 72,
+    label: "Em andamento",
+    note: "Fase atual: integrações e testes (pedagógico e técnico), etapa crítica para estabilidade antes do curso no ar."
+  },
+  phases: [
+    {
+      name: "Planejamento",
+      status: "ok", // ok | warn | risk | todo
+      pct: 100,
+      bullets: ["Escopo definido", "Estrutura do curso validada", "Fluxo aprovado"]
+    },
+    {
+      name: "Desenvolvimento: Isleide",
+      status: "warn",
+      pct: 90,
+      bullets: ["Conteúdo principal em construção", "Ajustes contínuos", "Base do curso praticamente finalizada"]
+    },
+    {
+      name: "Testes Pedagógicos",
+      status: "warn",
+      pct: 60,
+      bullets: ["Validação de conteúdo", "Sequência didática", "Adequação ao público-alvo"]
+    },
+    {
+      name: "Testes Técnicos",
+      status: "warn",
+      pct: 40,
+      bullets: ["Acesso à plataforma", "Navegação", "Integrações e estabilidade"]
+    },
+    {
+      name: "Curso no ar",
+      status: "todo",
+      pct: 0,
+      bullets: ["Liberação oficial aos alunos", "Comunicação e acompanhamento inicial"]
+    }
+  ],
+  checklist: [
+    { text: "Conclusão dos testes pedagógicos", done: false },
+    { text: "Ajustes técnicos finais", done: false },
+    { text: "Validação geral", done: false },
+    { text: "Publicação do curso (Curso no ar)", done: false }
+  ],
+  directorText:
+    "O projeto está com aproximadamente 72% de avanço, com foco atual em testes pedagógicos e técnicos — etapas críticas para garantir qualidade antes de colocar o curso no ar."
+};
+/* ========================= */
+
+function badgeClass(status){
+  if(status==="ok") return "badge badge-ok";
+  if(status==="warn") return "badge badge-warn";
+  if(status==="risk") return "badge badge-risk";
+  return "badge badge-todo";
+}
+
+function statusLabel(status){
+  if(status==="ok") return "Concluído";
+  if(status==="warn") return "Em andamento";
+  if(status==="risk") return "Crítico";
+  return "Não iniciado";
+}
+
+function clamp(n){ return Math.max(0, Math.min(100, n)); }
+
+document.getElementById("lastUpdate").textContent = "Atualizado: " + DATA.lastUpdate;
+
+document.getElementById("overallPct").textContent = clamp(DATA.overall.pct);
+document.getElementById("overallLabel").textContent = DATA.overall.label;
+document.getElementById("overallNote").textContent = DATA.overall.note;
+document.getElementById("overallBar").style.width = clamp(DATA.overall.pct) + "%";
+
+document.getElementById("directorText").textContent = " " + DATA.directorText;
+
+// timeline
+const tl = document.getElementById("timeline");
+DATA.phases.forEach((p, i) => {
+  const item = document.createElement("div");
+  item.className = "tItem";
+  item.innerHTML = `
+    <div class="tTop">
+      <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
+      <span class="muted small">${clamp(p.pct)}%</span>
+    </div>
+    <div class="tName">${p.name}</div>
+    <div class="tBar"><div class="tFill
