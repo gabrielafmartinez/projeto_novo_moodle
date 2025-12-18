@@ -205,21 +205,21 @@ const tl = document.getElementById("timeline");
 DATA.phases.forEach((p) => {
   const item = document.createElement("div");
   item.className = "tItem";
-item.innerHTML = `
-  <div class="tTop">
-    <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
-  </div>
+  item.innerHTML = `
+    <div class="tHeader">
+      <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
+      <span class="tPct">${clamp(p.pct)}%</span>
+    </div>
 
-  <div class="tName">${p.name}</div>
+    <div class="tBar">
+      <div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div>
+    </div>
 
-  <div class="tPct">${clamp(p.pct)}%</div>
-
-  <div class="tBar">
-    <div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div>
-  </div>
-`;
+    <div class="tName">${p.name}</div>
+  `;
   tl.appendChild(item);
 });
+
 
 // phases
 const ph = document.getElementById("phases");
