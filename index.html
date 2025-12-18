@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Projeto Novo MOODLE</title>
+  <title>Projeto Novo Moodle — Status</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
   <header class="wrap header">
-    <div>
-      <h1>Status do Projeto</h1>
-      <p class="muted">Status de atualização do projeto.</p>
+    <div class="headerLeft">
+      <h1>Status do Projeto — Novo Moodle</h1>
+      <p class="muted">Painel de acompanhamento do projeto (visão para diretoria).</p>
     </div>
 
-    <div class="pill">
+    <div class="pill" title="Última atualização">
       <span class="dot"></span>
       <span id="lastUpdate">Atualizado: —</span>
     </div>
@@ -61,7 +62,7 @@
     <section class="card span2">
       <div class="cardHead">
         <h2>Fases e status</h2>
-       <!-- <span class="muted small">edite só o bloco “DATA” no fim do arquivo</span>-->
+        <span class="muted small">Atualização simples: edite o bloco “DATA” no fim do arquivo</span>
       </div>
 
       <div class="phases" id="phases"></div>
@@ -84,7 +85,7 @@
   </main>
 
   <footer class="wrap footer">
-    <span class="muted small">INED • Painel alimentado manualmente</span>
+    <span class="muted small">INED • Painel alimentado manualmente • Versionado no GitHub</span>
   </footer>
 
 <script>
@@ -103,32 +104,58 @@ const DATA = {
       name: "Planejamento",
       status: "ok", // ok | warn | risk | todo
       pct: 100,
-      bullets: ["Escopo definido", "Estrutura do curso validada", "Fluxo aprovado"]
+      bullets: [
+        "Escopo definido",
+        "Estrutura do curso validada",
+        "Fluxo aprovado"
+      ]
     },
     {
       name: "Desenvolvimento — Isleide",
       status: "warn",
       pct: 90,
-      bullets: ["Conteúdo principal em construção", "Ajustes contínuos", "Base do curso", "Copiar o Conteúdo do curso para o Ambiente de produção", "Realizer testes de funcionamento do fluxo"]
+      bullets: [
+        "Conteúdo principal em construção",
+        "Ajustes contínuos",
+        "Base do curso",
+        "Copiar o conteúdo do curso para o ambiente de produção",
+        "Realizar testes de funcionamento do fluxo"
+      ]
     },
     {
-      name: "Testes Pedagógicos — Professora Alexandra",
+      name: "Testes Pedagógicos — Profª Alexandra",
       status: "warn",
       pct: 60,
-      bullets: ["Criação de conteúdo", "Validação de Conteúdo", "Teste no ambiente de homologação como aluno", "Refazer o teste no ambiente de produção como aluno"]
+      bullets: [
+        "Criação de conteúdo",
+        "Validação de conteúdo",
+        "Teste no ambiente de homologação como aluno",
+        "Refazer o teste no ambiente de produção como aluno"
+      ]
     },
     {
-      name: "Integração SISNAC/MOODLE — Paulo/Nelson",
+      name: "Integração SISNAC ⇄ Moodle — Paulo/Nelson",
       status: "warn",
       pct: 40,
-      bullets: ["Mapeamento das tabelas no SISNAC", "Criação do curso dentro do SISNAC", "Mapeamento de funcionamento do novo MOODLE", "Desenvolvimento da API MOODLE >> SISNAC", "Testes de comunicação da API",
-                "Validação pegagogica de atividades obrigatoris", "teste de comunicação das atividades no MOODLE",]
+      bullets: [
+        "Mapeamento das tabelas no SISNAC",
+        "Criação do curso dentro do SISNAC",
+        "Mapeamento de funcionamento do novo Moodle",
+        "Desenvolvimento da API Moodle → SISNAC",
+        "Testes de comunicação da API",
+        "Validação pedagógica de atividades obrigatórias",
+        "Teste de comunicação das atividades no Moodle"
+      ]
     },
     {
       name: "Curso no ar",
       status: "todo",
       pct: 0,
-      bullets: ["Liberação oficial aos alunos", "Ambiente testado", "Comunicação Básica com SISNAC",]
+      bullets: [
+        "Liberação oficial aos alunos",
+        "Ambiente validado",
+        "Comunicação básica com SISNAC"
+      ]
     }
   ],
   checklist: [
@@ -137,9 +164,7 @@ const DATA = {
     { text: "Validação no ambiente de produção", done: false },
     { text: "Publicação do curso (Curso no ar)", done: false }
   ],
-  directorText:
-    "O projeto está com aproximadamente 72% de avanço, com foco atual em preparar o ambiente de produção (Onde o aluno vai acessar),"
-  "Refazer os testes pedagógicos (profª Alexandra), e continuar a integração Entre SISNAC/MOODLE"
+  directorText: `O projeto está com aproximadamente 72% de avanço, com foco atual em preparar o ambiente de produção (onde o aluno vai acessar), refazer os testes pedagógicos (Profª Alexandra) e continuar a integração entre SISNAC e Moodle.`
 };
 /* ========================= */
 
@@ -164,13 +189,22 @@ document.getElementById("lastUpdate").textContent = "Atualizado: " + DATA.lastUp
 document.getElementById("overallPct").textContent = clamp(DATA.overall.pct);
 document.getElementById("overallLabel").textContent = DATA.overall.label;
 document.getElementById("overallNote").textContent = DATA.overall.note;
-document.getElementById("overallBar").style.width = clamp(DATA.overall.pct) + "%";
+
+const pct = clamp(DATA.overall.pct);
+document.getElementById("overallBar").style.width = pct + "%";
+
+const dot = document.querySelector(".dot");
+dot.classList.remove("ok","warn","risk","todo");
+if (pct >= 95) dot.classList.add("ok");
+else if (pct >= 60) dot.classList.add("warn");
+else if (pct >= 30) dot.classList.add("risk");
+else dot.classList.add("todo");
 
 document.getElementById("directorText").textContent = " " + DATA.directorText;
 
 // timeline
 const tl = document.getElementById("timeline");
-DATA.phases.forEach((p, i) => {
+DATA.phases.forEach((p) => {
   const item = document.createElement("div");
   item.className = "tItem";
   item.innerHTML = `
@@ -179,7 +213,9 @@ DATA.phases.forEach((p, i) => {
       <span class="muted small">${clamp(p.pct)}%</span>
     </div>
     <div class="tName">${p.name}</div>
-    <div class="tBar"><div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div></div>
+    <div class="tBar">
+      <div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div>
+    </div>
   `;
   tl.appendChild(item);
 });
@@ -197,7 +233,9 @@ DATA.phases.forEach(p => {
       </div>
       <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
     </div>
-    <div class="bar sm"><div class="barFill ${p.status}" style="width:${clamp(p.pct)}%"></div></div>
+    <div class="bar sm">
+      <div class="barFill ${p.status}" style="width:${clamp(p.pct)}%"></div>
+    </div>
     <ul class="bullets">
       ${p.bullets.map(b => `<li>${b}</li>`).join("")}
     </ul>
