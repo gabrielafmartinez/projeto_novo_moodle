@@ -177,4 +177,43 @@ DATA.phases.forEach((p, i) => {
       <span class="muted small">${clamp(p.pct)}%</span>
     </div>
     <div class="tName">${p.name}</div>
-    <div class="tBar"><div class="tFill
+    <div class="tBar"><div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div></div>
+  `;
+  tl.appendChild(item);
+});
+
+// phases
+const ph = document.getElementById("phases");
+DATA.phases.forEach(p => {
+  const card = document.createElement("div");
+  card.className = "phase";
+  card.innerHTML = `
+    <div class="phaseHead">
+      <div>
+        <div class="phaseTitle">${p.name}</div>
+        <div class="muted small">${statusLabel(p.status)} • ${clamp(p.pct)}%</div>
+      </div>
+      <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
+    </div>
+    <div class="bar sm"><div class="barFill ${p.status}" style="width:${clamp(p.pct)}%"></div></div>
+    <ul class="bullets">
+      ${p.bullets.map(b => `<li>${b}</li>`).join("")}
+    </ul>
+  `;
+  ph.appendChild(card);
+});
+
+// checklist
+const ck = document.getElementById("checklist");
+DATA.checklist.forEach(c => {
+  const li = document.createElement("li");
+  li.className = c.done ? "done" : "";
+  li.innerHTML = `
+    <span class="cb">${c.done ? "✓" : ""}</span>
+    <span>${c.text}</span>
+  `;
+  ck.appendChild(li);
+});
+</script>
+</body>
+</html>
