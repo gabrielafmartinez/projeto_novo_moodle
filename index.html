@@ -62,7 +62,7 @@
     <section class="card span2">
       <div class="cardHead">
         <h2>Fases e status</h2>
-        <span class="muted small">Atualização simples: edite o bloco “DATA” no fim do arquivo</span>
+         <!--<span class="muted small">Atualização simples: edite o bloco “DATA” no fim do arquivo</span>-->
       </div>
 
       <div class="phases" id="phases"></div>
@@ -78,14 +78,13 @@
       <ul class="checklist" id="checklist"></ul>
 
       <div class="callout">
-        <strong>Leitura rápida para diretoria:</strong>
         <span id="directorText"></span>
       </div>
     </section>
   </main>
 
   <footer class="wrap footer">
-    <span class="muted small">INED • Painel alimentado manualmente • Versionado no GitHub</span>
+    <span class="muted small">INED</span>
   </footer>
 
 <script>
@@ -160,11 +159,10 @@ const DATA = {
   ],
   checklist: [
     { text: "Conclusão dos testes pedagógicos", done: false },
-    { text: "Integração finalizada", done: false },
     { text: "Validação no ambiente de produção", done: false },
     { text: "Publicação do curso (Curso no ar)", done: false }
   ],
-  directorText: `O projeto está com aproximadamente 72% de avanço, com foco atual em preparar o ambiente de produção (onde o aluno vai acessar), refazer os testes pedagógicos (Profª Alexandra) e continuar a integração entre SISNAC e Moodle.`
+  directorText: `O projeto está com aproximadamente 72% de avanço, com foco atual em preparar o ambiente de produção (onde o aluno vai acessar), refazer os testes pedagógicos (Profª Alexandra) e continuar a integração entre SISNAC ⇄ Moodle.`
 };
 /* ========================= */
 
@@ -207,16 +205,19 @@ const tl = document.getElementById("timeline");
 DATA.phases.forEach((p) => {
   const item = document.createElement("div");
   item.className = "tItem";
-  item.innerHTML = `
-    <div class="tTop">
-      <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
-      <span class="muted small">${clamp(p.pct)}%</span>
-    </div>
-    <div class="tName">${p.name}</div>
-    <div class="tBar">
-      <div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div>
-    </div>
-  `;
+item.innerHTML = `
+  <div class="tTop">
+    <span class="${badgeClass(p.status)}">${statusLabel(p.status)}</span>
+  </div>
+
+  <div class="tName">${p.name}</div>
+
+  <div class="tPct">${clamp(p.pct)}%</div>
+
+  <div class="tBar">
+    <div class="tFill ${p.status}" style="width:${clamp(p.pct)}%"></div>
+  </div>
+`;
   tl.appendChild(item);
 });
 
